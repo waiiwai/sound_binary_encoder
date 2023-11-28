@@ -11,9 +11,10 @@ fn main() {
     let path: &Path = &args[2].as_ref();
 
     let head_foot_f: f32 = 2048.0;
-    let data_f: f32 = 256.0;
+    let data_1_f: f32 = 256.0;
+    let data_0_f: f32 = 128.0;
 
-    let sample_rate = 32768.0;
+    let sample_rate = 44100.0;
     let sec_per_bit = 1.0; // 1秒あたりのbit数
     let bit_samples = (sample_rate/sec_per_bit) as i32; // 1bitのサンプル数
     let spec = hound::WavSpec {
@@ -42,7 +43,7 @@ fn main() {
         let byte = result.unwrap();
 
         for i in 0..8 {
-            let f = if byte & 2_u8.pow(i) == 0 { 0.0 } else {data_f} ;
+            let f = if byte & 2_u8.pow(i) == 0 { data_0_f } else { data_1_f } ;
             let mut timer = 0.0;
             for _t in 0..bit_samples {
                 let sample = square_wave(f, timer);
